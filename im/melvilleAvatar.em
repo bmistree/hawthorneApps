@@ -54,12 +54,11 @@ std.simpleStorage.setScript(
         function(msg, sender) { system.prettyprint('Message from ', sender.toString(), ': ', msg); } << [{'printrequest'::}];
 
         var init = function() {
-            simulator = new std.graphics.DefaultGraphics(system.self, 'ogregraphics');
-
-            system.timeout(15, function()
-                          {
-                              system.import('test.em');
-                          });
+            simulator = new std.graphics.DefaultGraphics(system.self, 'ogregraphics',
+                                                         function()
+                                                         {
+                                                             system.import('test.em');
+                                                         });
         };
 
         if (system.self)
