@@ -11,8 +11,8 @@ system.require('convGUI.em');
     var OTHER_SIDE_NON_RESPONSIVE  =  2;
     
     
-    var REGISTRATION_TIMEOUT       = 50;
-    var MESSAGE_TIMEOUT            =  5;
+    var REGISTRATION_TIMEOUT       = 500;
+    var MESSAGE_TIMEOUT            =  50;
 
 
     /**

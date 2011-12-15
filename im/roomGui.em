@@ -36,6 +36,7 @@
              inRoom[friend.imID] = [friend.name,friend.imID];
          }
 
+         
          //find list of friends that are not already in room:
          var notInRoom ={};
          for (var s in roomGui.room.appGui.imIDToFriendMap)
