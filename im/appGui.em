@@ -1004,6 +1004,17 @@ system.require('room.em');
          {
              return 'melvilleChangeName__input_id';
          }
+
+         function genChangeNameButtonID()
+         {
+             return 'melvilleChangeName_buttonID';
+         }
+
+         function genCreateGroupButtonID()
+         {
+             return 'melvilleCreateGroup_buttonID';
+         }
+         
          
          /**
           param {object <string, [int, string, string, bool, array]>}
@@ -1040,16 +1051,10 @@ system.require('room.em');
              var htmlToDisplay = '';
 
              //when click on this, item, upda
-             onClickString = 'melvilleChangeNameClicked();';
-             htmlToDisplay += '<button id="melville_nameChangeButton" onclick="' +
-                 onClickString+'">' +
+             var onClickString = 'melvilleChangeNameClicked();';
+             htmlToDisplay += '<button id="' + genChangeNameButtonID() +
+                 '" onclick="' + onClickString+'">' +
                  'Change name </button>';
-
-             
-             // onClickString = 'melvilleChangeNameClicked();';
-             // htmlToDisplay += '<div onclick="' +
-             //     onClickString + '"> <b>Change name</b>';
-             // htmlToDisplay += '</div>';
 
              htmlToDisplay += '<input id="' + genChangeNameInputID() + '"';
              htmlToDisplay += ' style="display: none" value="">';
@@ -1059,7 +1064,9 @@ system.require('room.em');
              //header controls to create new groups
              htmlToDisplay += '<br/>';
              htmlToDisplay += '<button onclick="' +
-                 'melvilleAppGuiCreateGroupClicked()">';
+                 'melvilleAppGuiCreateGroupClicked()" ' +
+                 'id="' + genCreateGroupButtonID() +'">';
+
              htmlToDisplay += 'New group';
              htmlToDisplay += '</button>';
 
@@ -1094,7 +1101,7 @@ system.require('room.em');
              htmlToDisplay += '</div>';
 
 
-             var onClickString = 'melvilleAppGuiCreateRoomClicked();';
+             onClickString = 'melvilleAppGuiCreateRoomClicked();';
              htmlToDisplay += '<br/>';
              htmlToDisplay += '<button onclick="' +
                  onClickString + '">';
@@ -1281,6 +1288,7 @@ system.require('room.em');
              {
                  //makes text visible.
                  itemToToggle.style.display = 'block';
+                 $('#' + genChangeNameButtonID()).html('Commit name change');
              }
              else
              {
@@ -1288,6 +1296,7 @@ system.require('room.em');
                  sirikata.event('melvilleChangeName',newName);
                  //makes text invisible
                  itemToToggle.style.display = 'none';
+                 $('#' + genChangeNameButtonID()).html('Change name');
              }
          };
 
@@ -1491,10 +1500,12 @@ system.require('room.em');
                  return; 
              }
 
+             
              if (itemToToggle.style.display==='none')
              {
                  //makes text visible.
                  itemToToggle.style.display = 'block';
+                 $('#' + genCreateGroupButtonID()).html('Commit new group');
              }
              else
              {
@@ -1502,6 +1513,9 @@ system.require('room.em');
                  var newGroupName    = $('#' + genNewGroupNameTAreaID()).val();
                  var newGroupStatus  = $('#' + genNewGroupStatusTAreaID()).val();
                  var newGroupProfile = $('#' + genNewGroupProfileTAreaID()).val();
+
+                 $('#' + genCreateGroupButtonID()).html('New group');
+             
                  
                  sirikata.event('melvilleAddGroup', newGroupName,
                                 newGroupStatus, newGroupProfile);
