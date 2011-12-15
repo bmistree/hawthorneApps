@@ -35,8 +35,7 @@ def generateConfig(configFilename,prefix):
         {
             "object-factory-opts" : "--db=avatar.db",
             "servermap": "local",
-            "servermap-options": "--host=sns30.cs.princeton.edu --port=6880",
-            "cdn.host": "singular.stanford.edu"
+            "servermap-options": "--host=sns30.cs.princeton.edu --port=6880"
         }
     }
 }''');
