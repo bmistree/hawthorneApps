@@ -1041,12 +1041,18 @@ system.require('room.em');
 
              //when click on this, item, upda
              onClickString = 'melvilleChangeNameClicked();';
-             htmlToDisplay += '<div onclick="' +
-                 onClickString + '"> <b>Change name</b>';
-             htmlToDisplay += '</div>';
+             htmlToDisplay += '<button id="melville_nameChangeButton" onclick="' +
+                 onClickString+'">' +
+                 'Change name </button>';
+
+             
+             // onClickString = 'melvilleChangeNameClicked();';
+             // htmlToDisplay += '<div onclick="' +
+             //     onClickString + '"> <b>Change name</b>';
+             // htmlToDisplay += '</div>';
 
              htmlToDisplay += '<input id="' + genChangeNameInputID() + '"';
-             htmlToDisplay += ' style="display: none" value="">'
+             htmlToDisplay += ' style="display: none" value="">';
              htmlToDisplay += '</input>';
 
              
@@ -1266,7 +1272,7 @@ system.require('room.em');
          melvilleChangeNameClicked = function()
          {
              var itemToToggle= document.getElementById(genChangeNameInputID());
-
+             
              if (itemToToggle.style.display==='none')
              {
                  //makes text visible.
