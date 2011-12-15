@@ -1039,6 +1039,17 @@ system.require('room.em');
              
              var htmlToDisplay = '';
 
+             //when click on this, item, upda
+             onClickString = 'melvilleChangeNameClicked();';
+             htmlToDisplay += '<div onclick="' +
+                 onClickString + '"> <b>Change name</b>';
+             htmlToDisplay += '</div>';
+
+             htmlToDisplay += '<input id="' + genChangeNameInputID() + '"';
+             htmlToDisplay += ' style="display: none" value="">'
+             htmlToDisplay += '</input>';
+
+             
              //header controls to create new groups
              htmlToDisplay += '<div onclick="' +
                  'melvilleAppGuiCreateGroupClicked()">';
@@ -1053,16 +1064,6 @@ system.require('room.em');
              htmlToDisplay += '</div>';
 
 
-             //when click on this, item, upda
-             onClickString = 'melvilleChangeNameClicked();';
-             htmlToDisplay += '<div onclick="' +
-                 onClickString + '"> <b>Change name</b>';
-             htmlToDisplay += '</div>';
-
-             htmlToDisplay += '<input id="' + genChangeNameInputID() + '"';
-             htmlToDisplay += ' style="display: none" value="">'
-             htmlToDisplay += '</input>';
-
              // lkjs;
 
              htmlToDisplay += '<div id="' +
@@ -1071,25 +1072,26 @@ system.require('room.em');
                  '>';
 
              //put group name into modifiable textarea.
-             htmlToDisplay += 'group name:   <textarea id="'+
-                 genNewGroupNameTAreaID() +'">' +
-                 groupName +
-                 '</textarea> <br/>';
+             htmlToDisplay += 'group name:   <input id="'+
+                 genNewGroupNameTAreaID() +'" style="width:250px" '+
+                 'value="' + groupName + '">' +
+                 '</input> <br/>';
              
              //put group status into modifiable textarea
-             htmlToDisplay += 'group status: <textarea id="'+
-                 genNewGroupStatusTAreaID() +'">' +
-                 groupStatus +
-                 '</textarea> <br/>';
+             htmlToDisplay += 'group status: <input id="'+
+                 genNewGroupStatusTAreaID() +'" style="width:250px" '+
+                 'value="' + groupStatus + '">' +
+                 '</input> <br/>';
 
              //// put group profile into modifiable textarea
-             htmlToDisplay += 'group profile: <textarea id="'+
-                 genNewGroupProfileTAreaID() +'">' +
-                 groupProfile +
-                 '</textarea> <br/>';
+             htmlToDisplay += 'group profile: <input id="'+
+                 genNewGroupProfileTAreaID() +'" style="width:250px" '+
+                 'value="' +groupProfile +  '">' +
+                 '</input> <br/>';
 
              //closes hidden div with group name fields
              htmlToDisplay += '</div>';
+
 
 
              htmlToDisplay += '<br/><br/><i> All groups: </i>';
@@ -1116,22 +1118,22 @@ system.require('room.em');
                      '>';
 
                  //put group name into modifiable textarea.
-                 htmlToDisplay += 'group name:   <textarea id="'+
-                     genGroupNameTextAreaIDFromGroupID(groupID) +'">' +
-                     groupName +
-                     '</textarea> <br/>';
+                 htmlToDisplay += 'group name:   <input id="'+
+                     genGroupNameTextAreaIDFromGroupID(groupID) +
+                     '" style="width:250px" ' + 'value="' + groupName +
+                     '">' + '</input> <br/>';
 
                  //put group status into modifiable textarea
-                 htmlToDisplay += 'group status: <textarea id="'+
-                     genGroupStatusTextAreaIDFromGroupID(groupID) +'">' +
-                     groupStatus +
-                     '</textarea> <br/>';
+                 htmlToDisplay += 'group status: <input id="'+
+                     genGroupStatusTextAreaIDFromGroupID(groupID) +
+                     '" style="width:250px" ' + 'value="' + groupStatus +
+                     '">' + '</input> <br/>';
 
                  //// put group profile into modifiable textarea
-                 htmlToDisplay += 'group profile: <textarea id="'+
-                     genGroupProfileTextAreaIDFromGroupID(groupID) +'">' +
-                     groupProfile +
-                     '</textarea> <br/>';
+                 htmlToDisplay += 'group profile: <input id="'+
+                     genGroupProfileTextAreaIDFromGroupID(groupID) +
+                     '" style="width:250px" ' + 'value="' + groupProfile +
+                     '">' + '</input> <br/>';
 
 
                  //closes div associated with genGroupDivIDFromGroupName above
@@ -1172,10 +1174,10 @@ system.require('room.em');
                          '>';
                      
                      //// put friend name into modifiable textarea
-                     htmlToDisplay += 'friend name: <textarea id="'+
-                         genFriendChangeNameTextAreaIDFromFriendID(friendID) +'">' +
-                         friendName +
-                         '</textarea> <br/>';
+                     htmlToDisplay += 'friend name: <input id="'+
+                         genFriendChangeNameTextAreaIDFromFriendID(friendID) +
+                         '" style="width:250px" ' + 'value="' + friendName   +
+                         '">' + '</input> <br/>';
 
                      
                      //for each friend, create a pull-down menu of
@@ -1551,10 +1553,10 @@ system.require('room.em');
                  'new friend?  What group do you want to put ' +
                  'your new friend in? <br/><br/>';
              
-             htmlToDisplay += 'friend name: <textarea id="'+
+             htmlToDisplay += 'friend name: <input id="'+
                  genFriendChangeNameTextAreaIDFromRequestID(requestRecID) +
-                 '">' + 'some name' +
-                 '</textarea> <br/>';
+                 '" style="width:250px" ' + 'value="some name"' +
+                 '">' + '</input> <br/>';
 
              htmlToDisplay += 'group: <select id="'+
                  genFriendChangeGroupSelectIDFromRequestID(requestRecID) +
