@@ -1092,6 +1092,8 @@ system.require('room.em');
              htmlToDisplay += '</div>';
 
 
+             htmlToDisplay += '<br/><br/><i> All groups: </i>';
+
              //actually print out all friends in groups
              for(var s in fullGroups)
              {
