@@ -1602,13 +1602,14 @@ system.require('room.em');
              htmlToDisplay += '</select>';
 
 
+             htmlToDisplay += '<br/>';
              var submitFriendDataID = genNewFriendSubmitDataID(requestRecID);
-             htmlToDisplay += '<div id="' + submitFriendDataID + '"  ' +
+             htmlToDisplay += '<button id="' + submitFriendDataID + '"  ' +
                  'onclick="newFriendDataSubmit(' + requestRecID.toString() +
                  ')">';
              
-             htmlToDisplay += '<b> Submit</b>';
-             htmlToDisplay += '</div>';
+             htmlToDisplay += 'Submit';
+             htmlToDisplay += '</button>';
 
              $('#' + windowID).append(htmlToDisplay);
              melvilleFriendCompleteWindow.show();
