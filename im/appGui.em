@@ -1057,17 +1057,12 @@ system.require('room.em');
 
              
              //header controls to create new groups
-             htmlToDisplay += '<div onclick="' +
+             htmlToDisplay += '<br/>';
+             htmlToDisplay += '<button onclick="' +
                  'melvilleAppGuiCreateGroupClicked()">';
-             htmlToDisplay += '<b> New group</b>';
-             htmlToDisplay += '</div>';
+             htmlToDisplay += 'New group';
+             htmlToDisplay += '</button>';
 
-             var onClickString = 'melvilleAppGuiCreateRoomClicked();';
-
-             htmlToDisplay += '<div onclick="' +
-                 onClickString + '">';
-             htmlToDisplay += '<b> New room</b>';
-             htmlToDisplay += '</div>';
 
 
              // lkjs;
@@ -1099,6 +1094,14 @@ system.require('room.em');
              htmlToDisplay += '</div>';
 
 
+             var onClickString = 'melvilleAppGuiCreateRoomClicked();';
+             htmlToDisplay += '<br/>';
+             htmlToDisplay += '<button onclick="' +
+                 onClickString + '">';
+             htmlToDisplay += 'New room';
+             htmlToDisplay += '</button>';
+
+             
 
              htmlToDisplay += '<br/><br/><i> All groups: </i>';
 
@@ -1110,12 +1113,13 @@ system.require('room.em');
                  var groupStatus  = fullGroups[s][1];
                  var groupProfile = fullGroups[s][2];
 
+                 htmlToDisplay += '<br/>';
 
-                 htmlToDisplay += '<div onclick="' +
+                 htmlToDisplay += '<button onclick="' +
                      'melvilleAppGuiGroupClicked(' +
                      groupID.toString() + ')">';
-                 htmlToDisplay += '<b>' + groupName +'</b>';
-                 htmlToDisplay += '</div>'; //closes on group clicked div
+                 htmlToDisplay +=  groupName ;
+                 htmlToDisplay += '</button>'; //closes on group clicked div
 
 
                  htmlToDisplay += '<div id="' +
