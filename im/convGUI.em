@@ -253,12 +253,13 @@ system.require('imUtil.em');
          $('<div>' +
 
      '<table><tr><td>' +
-              '<div id=' + getMelvilleHistoryID() + ' style="height:120px;width:250px;font:16px/26px Georgia, Garamond, Serif;overflow:scroll;">' +
+              '<div id=' + getMelvilleHistoryID() + ' style="height:200px;width:250px;font:16px/26px Georgia, Garamond, Serif;overflow:scroll;">' +
+              //'<div id=' + getMelvilleHistoryID() + ' style="height:120px;width:250px;font:16px/26px Georgia, Garamond, Serif;overflow:scroll;">' +
               '</div>' + //end history
-          
-              '<input value="" id=' + getMelvilleTareaID() + ' style="width:250px;">' +
+              '<input value="" id=' + getMelvilleTareaID() + ' style="width:250px;">' +          
               '</input>' +
-     
+
+
      '</td><td>' +
          '<div id=' +getMelvilleChatParticipantsID() + '>' +
          '</div>' +
