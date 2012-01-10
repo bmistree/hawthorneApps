@@ -1366,8 +1366,8 @@ system.require('room.em');
                  '<b>No</b></div>';
 
              //close the div asking whether to add this friend.
-             moreFriendsText += '</div>';
              moreFriendsText += '<br/><br/>';
+             moreFriendsText += '</div>';
 
              //actually add the request message to the warn gui.
              $('#melville-chat-warn-gui').append(moreFriendsText);
@@ -1390,6 +1390,11 @@ system.require('room.em');
          {
              sirikata.event('friendRequestReject', userReqID);
              $('#' + genAddFriendRequestID(userReqID)).remove();
+
+             
+             var txtLeft = $('#melville-chat-warn-gui').html();
+             if (txtLeft == '')
+                 melvilleWarnWindow.hide();
          };
 
          /**
@@ -1404,6 +1409,10 @@ system.require('room.em');
          {
              sirikata.event('friendRequestAccept', userReqID);
              $('#' + genAddFriendRequestID(userReqID)).remove();
+
+             var txtLeft = $('#melville-chat-warn-gui').html();
+             if (txtLeft == '')
+                 melvilleWarnWindow.hide();
          };
          
 
