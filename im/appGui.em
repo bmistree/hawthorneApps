@@ -1345,8 +1345,10 @@ system.require('room.em');
                  genAddFriendRequestID(userReqID) +
                  '">';
 
-             moreFriendsText += 'Do you want to become friends with: ' +
-                 visID + ' (self-reported name: ' + selfReportedName + ')?';
+             moreFriendsText += 'Do you want to become friends with: <br/>' +
+                 '<b>self-reported name</b>: <i>' + selfReportedName + '</i><br/>' +
+                 'id: ' + visID + '<br/>';
+                 // visID + ' (self-reported name: ' + selfReportedName + ')?';
 
              //div for yes and no
              moreFriendsText += '<div id="' +
@@ -1365,6 +1367,7 @@ system.require('room.em');
 
              //close the div asking whether to add this friend.
              moreFriendsText += '</div>';
+             moreFriendsText += '<br/><br/>';
 
              //actually add the request message to the warn gui.
              $('#melville-chat-warn-gui').append(moreFriendsText);
