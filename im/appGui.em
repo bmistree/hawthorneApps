@@ -479,7 +479,6 @@ system.require('room.em');
          delete outstandingUserRequestMap[requestRecID];
      }
 
-
      /**
       @param {unique int} requestRecID The unique id of a friend
       request.  Pop up a gui asking for what to name user and what
@@ -514,7 +513,8 @@ system.require('room.em');
          if (requestRecID in outstandingUserRequestMap)
          {
              selfReportedName =
-                 outstandingUserRequestMap[requestRecID].getSelfReportedName();
+                 OutFriendshipReqUtil.getSelfReportedName(
+                     outstandingUserRequestMap[requestRecID]);
          }
 
          //the internal js will pop up asking us what we want to name
