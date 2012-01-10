@@ -42,7 +42,7 @@ std.simpleStorage.setScript(
         system.require('std/script/scriptable.em');
         system.require('std/movement/movable.em');
         system.require('std/movement/animatable.em');
-        system.require('std/graphics/default.em');
+        system.require('std/client/default.em');
         
         scriptable = new std.script.Scriptable();
         movable = new std.movement.Movable(true); // Self only
@@ -54,15 +54,21 @@ std.simpleStorage.setScript(
         function(msg, sender) { system.prettyprint('Message from ', sender.toString(), ': ', msg); } << [{'printrequest'::}];
 
         var init = function() {
-            simulator = new std.graphics.DefaultGraphics(system.self, 'ogregraphics',
-                                                         function()
-                                                         {
-                                                             system.import('test.em');
-                                                         });
+            simulator = new std.client.Default(system.self,
+                                               function()
+                                               {
+                                                   system.import('test.em');
+                                               });
         };
 
         if (system.self)
         {
+            //already have a connected presence, use it.
+            init();
+        }
+        else if (system.presences.length != 0)
+        {
+            system.changeSelf(system.presences[0]);
             //already have a connected presence, use it.
             init();
         }
@@ -78,4 +84,4 @@ std.simpleStorage.setScript(
         }
 
         
-    }, false);
+    }, true);

@@ -20,11 +20,13 @@ system.require('room.em');
      //create a utility class to manage outstanding friendship requests.
      var OutFriendshipReqUtil =
          {
-             createOutstandingFriendRequest: function(cbackFunc,appgui,potFriendVis,regMsg)
+             createOutstandingFriendRequest: function(
+                 cbackFunc,appgui,potFriendVis,regMsg,selfReportedName)
              {
                  return [OUTSTANDING_REQ_FRIENDSHIP_EVENT,
                          std.core.bind(cbackFunc,appgui,potFriendVis,regMsg),
-                         potFriendVis.toString()];
+                         potFriendVis.toString(),
+                         selfReportedName];
              },
 
              getCbackToExecOnAdd: function(entry)
@@ -35,11 +37,18 @@ system.require('room.em');
              {
                  return entry[2];
              },
+
+             getSelfReportedName: function (entry)
+             {
+                 return entry[3];
+             },
              
              isOutstandingFriendshipReq : function(entry)
              {
                  return (entry[0] === OUTSTANDING_REQ_FRIENDSHIP_EVENT);
              }
+
+             
          };
 
      /**
@@ -167,7 +176,8 @@ system.require('room.em');
                      {
                          var newEntry =
                              OutFriendshipReqUtil.createOutstandingFriendRequest(
-                                 completeAddFriend, this, potentialFriend, reqMsg);
+                                 completeAddFriend, this, potentialFriend, reqMsg,
+                                 nameOfPotentialFriend);
                      
                          outstandingUserRequestMap[s] = newEntry;                             
                      }
@@ -182,11 +192,13 @@ system.require('room.em');
                  }
              }
          }
-         
+
+
          var outUserReqID = IMUtil.getUniqueInt();
          var reqMapEntry  =
              OutFriendshipReqUtil.createOutstandingFriendRequest(
-                 completeAddFriend, this, potentialFriend, reqMsg);
+                 completeAddFriend, this, potentialFriend, reqMsg,
+                 nameOfPotentialFriend);
 
          outstandingUserRequestMap[outUserReqID] = reqMapEntry;
          this.guiMod.call(
@@ -470,7 +482,8 @@ system.require('room.em');
 
      /**
       @param {unique int} requestRecID The unique id of a friend
-      request.  Pop up a gui asking for what to name user and what group to put user in.
+      request.  Pop up a gui asking for what to name user and what
+      group to put user in.
       */
      function friendRequestAccept(requestRecID)
      {
@@ -490,16 +503,26 @@ system.require('room.em');
 
              groupIDToGroupNames = {};
 
-             this.groupIDToGroupMap[newGroup.groupID]   = newGroup;
-             groupIDToGroupNames[newGroup.groupID] = newGroup.groupName;
+             this.groupIDToGroupMap[newGroup.groupID] = newGroup;
+             groupIDToGroupNames[newGroup.groupID]    = newGroup.groupName;
              this.display();
          }
-         
+
+
+         //get self-reported name
+         var selfReportedName = 'some name';
+         if (requestRecID in outstandingUserRequestMap)
+         {
+             selfReportedName =
+                 outstandingUserRequestMap[requestRecID].getSelfReportedName();
+         }
+
          //the internal js will pop up asking us what we want to name
          //the new friend, and what group we want to put the new
          //friend in.
          this.guiMod.call('melvilleAppGuiNewFriendGroupID',
-                          requestRecID, groupIDToGroupNames);
+                          requestRecID, groupIDToGroupNames,
+                          selfReportedName);
      }
 
 
@@ -1071,9 +1094,6 @@ system.require('room.em');
              htmlToDisplay += '</button>';
 
 
-
-             // lkjs;
-
              htmlToDisplay += '<div id="' +
                  genCreateGroupDivID() +
                  '"' + 'style="display: none"' + 
@@ -1552,9 +1572,12 @@ system.require('room.em');
 
           \param {array <unique int, string>} groupIDToGroupNames
           Lists all available groups to add friend to.
+
+          \param {string} selfReportedName -- The name that the other
+          friend said that they had.  
           */
          melvilleAppGuiNewFriendGroupID = function(
-             requestRecID,groupIDToGroupNames)
+             requestRecID,groupIDToGroupNames,selfReportedName)
          {
              var windowID = generateNewFriendGroupDivID(requestRecID);
 
@@ -1579,7 +1602,7 @@ system.require('room.em');
              
              htmlToDisplay += 'friend name: <input id="'+
                  genFriendChangeNameTextAreaIDFromRequestID(requestRecID) +
-                 '" style="width:250px" ' + 'value="some name"' +
+                 '" style="width:250px" ' + 'value="' + selfReportedName  +
                  '">' + '</input> <br/>';
 
              htmlToDisplay += 'group: <select id="'+
