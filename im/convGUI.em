@@ -368,8 +368,8 @@ system.require('imUtil.em');
          var handleMelvilleTareaKeyUp = function(evt)
          {
              //13 represents keycode for enter, submits whatever's in
-             //the text box if user hits shift+enter.
-             if ((evt.keyCode == 13) && evt.shiftKey)
+             //the text box if user hits enter.
+             if (evt.keyCode == 13)
                  submitUserTextToEmerson();
          };
 
