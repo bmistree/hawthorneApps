@@ -615,7 +615,7 @@ system.require('room.em');
      }
      
      
-     AppGui = function()
+     AppGui = function(username)
      {
          //keys are string-ified versions of visible ids
          this.visIDToFriendMap  = {};
@@ -627,7 +627,10 @@ system.require('room.em');
          //tracks all rooms that we are in charge of.
          this.roomIDToRoomMap = {};
 
-         this.myName = 'I have not filled in a name yet.';
+         if (typeof(username) == 'undefined')
+             this.myName = 'I have not filled in a name yet.';
+         else
+             this.myName = username;
          
          this.guiMod = simulator._simulator.addGUITextModule(
              IM_APP_NAME,
