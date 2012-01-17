@@ -1134,7 +1134,9 @@ system.require('room.em');
              
 
              htmlToDisplay += '<br/><br/><i> All groups: </i>';
+             htmlToDisplay += '<br/><br/>';
 
+             
              //actually print out all friends in groups
              for(var s in fullGroups)
              {
@@ -1145,11 +1147,14 @@ system.require('room.em');
 
                  htmlToDisplay += '<br/>';
 
+                 htmlToDisplay += 'Group: ';
                  htmlToDisplay += '<button onclick="' +
                      'melvilleAppGuiGroupClicked(' +
                      groupID.toString() + ')">';
                  htmlToDisplay +=  groupName ;
                  htmlToDisplay += '</button>'; //closes on group clicked div
+                 htmlToDisplay += '<br/>(Click to change status presenting or group name.)';
+                 htmlToDisplay += '<hr size="3" color="black"/>';
 
 
                  htmlToDisplay += '<div id="' +
@@ -1193,7 +1198,6 @@ system.require('room.em');
                      //whenever user clicks on this div, will call
                      //melvilleAppGuiFriendClicked, which sends message
                      //to appgui to open a convgui to friend.
-                     htmlToDisplay += '<hr/>';
                      htmlToDisplay += '<div onclick="' +
                          'melvilleAppGuiFriendClicked(' +
                          friendID.toString() + ')">';
@@ -1202,12 +1206,12 @@ system.require('room.em');
                      htmlToDisplay += '</div>';//closes onclick div
 
                      
-                     htmlToDisplay += '<div onclick="' +
+                     htmlToDisplay += '<button onclick="' +
                          'melvilleAppGuiFriendNameGroupChangeClicked(' +
                          friendID.toString() + ',' + groupID.toString() +
                          ')">';
                      htmlToDisplay += 'change name/group';
-                     htmlToDisplay += '</div>';
+                     htmlToDisplay += '</button>';
 
 
                      htmlToDisplay += '<div id="' +
@@ -1252,14 +1256,14 @@ system.require('room.em');
                      htmlToDisplay += '</select>'; 
                      
                      htmlToDisplay += '</div>';  //closes friend change name div
-                     
-                     htmlToDisplay += friendStatus;
-
                      htmlToDisplay += '<br/>';
+                     htmlToDisplay += '<i>Status</i>: ' +friendStatus;
+
+                     //htmlToDisplay += '<br/>';
+                     htmlToDisplay += '<hr/>';
                  }
                  
-                 //three horizaontal rules between groups
-                 htmlToDisplay += '<hr/><hr/><hr/>';
+                 htmlToDisplay += '<br/><br/>';
              }
 
              $('#melville-chat-gui').html(htmlToDisplay);
