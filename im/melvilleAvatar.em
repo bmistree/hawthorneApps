@@ -82,6 +82,4 @@ std.simpleStorage.setScript(
                 }
             );
         }
-
-        
     }, true);

@@ -1180,6 +1180,7 @@ system.require('room.em');
                  htmlToDisplay += '</div>';
 
 
+
                  //run through all the friends that are in this group,
                  //displaying each separately.
                  var friendList = fullGroups[s][4];
@@ -1192,11 +1193,12 @@ system.require('room.em');
                      //whenever user clicks on this div, will call
                      //melvilleAppGuiFriendClicked, which sends message
                      //to appgui to open a convgui to friend.
+                     htmlToDisplay += '<hr/>';
                      htmlToDisplay += '<div onclick="' +
                          'melvilleAppGuiFriendClicked(' +
                          friendID.toString() + ')">';
-
-                     htmlToDisplay += '<i>' + friendName + '</i>.';
+                     
+                     htmlToDisplay += '<b><font size=4>' + friendName + '</font></b>';
                      htmlToDisplay += '</div>';//closes onclick div
 
                      
@@ -1255,6 +1257,9 @@ system.require('room.em');
 
                      htmlToDisplay += '<br/>';
                  }
+                 
+                 //three horizaontal rules between groups
+                 htmlToDisplay += '<hr/><hr/><hr/>';
              }
 
              $('#melville-chat-gui').html(htmlToDisplay);
