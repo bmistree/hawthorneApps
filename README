@@ -1,0 +1,9 @@
+The hawthorneApps repository contains several useful larger-scale
+emerson applictions.
+
+These can be used either as standalones, or as examples for further
+application development.
+
+Currently, it contains only one project, the Melville IM client.
+Melville allows you to chat with other users of Melville throughout
+the world.
