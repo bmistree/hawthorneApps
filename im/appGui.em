@@ -47,8 +47,6 @@ system.require('room.em');
              {
                  return (entry[0] === OUTSTANDING_REQ_FRIENDSHIP_EVENT);
              }
-
-             
          };
 
      /**
@@ -542,6 +540,19 @@ system.require('room.em');
          this.myName = newName;
      }
      
+
+     function processRoomChatRequest(appGui,roomId)
+     {
+         //lkjs;
+         IMUtil.dPrint('\n\nFill in later.  Processing room chat request.\n\n');
+     }
+     function processRoomManageRequest(appGui,roomId)
+     {
+         //lkjs;
+         IMUtil.dPrint('\n\nFill in later.  Processing room manage request.\n\n');
+     }
+
+
      
      //"this" is automatically bound to AppGui object in @see AppGui
      //constructor. Should only be called through event in html gui.
@@ -570,6 +581,12 @@ system.require('room.em');
 
          this.guiMod.bind('melvilleChangeName',
                           std.core.bind(melvilleChangeName,this));
+         
+
+         this.guiMod.bind('roomChatRequest',
+                         std.core.bind(processRoomChatRequest,undefined,this));
+         this.guiMod.bind('roomManageRequest',
+                         std.core.bind(processRoomManageRequest,undefined,this));
          
          
          //still must clear pendingEvents.
@@ -611,7 +628,13 @@ system.require('room.em');
 
      function internalDisplay(appGui)
      {
-         appGui.guiMod.call('appGuiDisplay',appGui.getDisplayText());
+         var roomsToPaint = { };
+
+         for (var s in appGui.roomIDToRoomMap)
+             roomsToPaint[s] = appGui.roomIDToRoomMap[s].myName;
+         
+         appGui.guiMod.call(
+             'appGuiDisplay',appGui.getDisplayText(),roomsToPaint);
      }
      
      
@@ -764,6 +787,8 @@ system.require('room.em');
          
      };
 
+
+     
      /**
       @param {Friend} newFriend
 
@@ -1069,8 +1094,14 @@ system.require('room.em');
 
           This function walks through all the data in fullGroups, and
           displays it in an attemptedly-nice form.
+
+
+          \param{object: <roomID,roomName>} roomsToPaint: lists all
+          the rooms that you are hosting.
+
+          
           */
-         appGuiDisplay = function(fullGroups)
+         appGuiDisplay = function(fullGroups, roomsToPaint)
          {
              //let's just try to display the groups correctly.
              
@@ -1262,13 +1293,20 @@ system.require('room.em');
                      //htmlToDisplay += '<br/>';
                      htmlToDisplay += '<hr/>';
                  }
-                 
+
+                 htmlToDisplay += '<div id="' + roomManagerDivId() + '"></div>';
                  htmlToDisplay += '<br/><br/>';
              }
 
              $('#melville-chat-gui').html(htmlToDisplay);
+
+             //actually add in the room text.
+             displayRooms(roomsToPaint);
+             
          };
 
+
+         
 
          //gui for displaying warnings.
          $('<div>'   +
@@ -1677,13 +1715,78 @@ system.require('room.em');
                  genFriendChangeNameTextAreaIDFromRequestID(requestRecID);
 
 
-             var newName = $('#' + nameTextAreaID).val();
+             var newName  = $('#' + nameTextAreaID).val();
              var newGroup = $('#' + groupSelectID).val();
 
              
              $('#' +windowID).remove();
              sirikata.event('userRespAddFriend',requestRecID,newName,newGroup);
          };
+
+
+         function roomManagerDivId()
+         {
+             return 'melville_room_manager_div';
+         }
+
+         function roomButtonChatDivId(roomId)
+         {
+             return 'melville_room_chat_button_div_id_' + roomId.toString();
+         }
+         
+         function roomButtonManageDivId(roomId)
+         {
+             return 'melville_room_manage_button_div_id_' + roomId.toString();
+         }
+
+         
+         /**
+          \param{object: <roomID,roomName>} roomsToPaint: lists all
+          the rooms that you are hosting.
+          */
+         function displayRooms(roomsToPaint)
+         {
+             var htmlToAdd = '';
+             if (roomsToPaint.length != 0)
+                 htmlToAdd += '<hr><b>Rooms</b><br/>';
+
+             for (var s in roomsToPaint)
+             {
+                 sirikata.log('error','got a room to paint ' + roomsToPaint[s]);
+                 htmlToAdd += roomsToPaint[s];
+                 htmlToAdd += '<button id="' + roomButtonChatDivId(s) + '">' +
+                     'chat</button>';
+
+                 htmlToAdd += '<button id="' + roomButtonManageDivId(s) + '">' +
+                     'manage</button>';
+             }
+
+             sirikata.log('error',htmlToAdd);
+             
+             $('#' + roomManagerDivId()).html(htmlToAdd);
+
+
+             //actually add the clickable functionality to each.
+             for (var s in roomsToPaint)
+             {
+                 var chatId = roomButtonChatDivId(s);
+                 var manageId = roomButtonManageDivId(s);
+
+                 //should let user start chatting through the room.
+                 $('#' + chatId).click(
+                     function()
+                     {
+                         sirikata.event('roomChatRequest',s);
+                     });
+
+                 //should pull up the room management gui.
+                 $('#' + manageId).click(
+                     function()
+                     {
+                         sirikata.event('roomManageRequest',s);
+                     });
+             }
+         }
          
          @;
          

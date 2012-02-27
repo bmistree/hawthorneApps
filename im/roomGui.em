@@ -53,7 +53,7 @@
              var friend = roomGui.room.appGui.imIDToFriendMap[s];
              notInRoom[friend.imID] = [friend.name, friend.imID];
          }
-
+         
          //actually pop up a new requestMembershipDialog window in gui.
          roomGui.guiMod.call('requestMembershipDialog',inRoom,notInRoom);
      }

@@ -39,6 +39,7 @@ system.require('std/http/http.em');
          IMUtil.dPrint(newName);
          IMUtil.dPrint('\n\n');
          this.myName = newName;
+         this.appGui.display();
      };
 
      Room.prototype.setLoggingAddress = function(newLoggingAddress)
