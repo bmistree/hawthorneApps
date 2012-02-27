@@ -11,10 +11,13 @@
              getRoomGuiText(this),
              std.core.bind(guiInitFunc,undefined,this)
          );
-
-         system.__debugFileWrite(getRoomGuiText(this),'testRoomGui.em');
      };
 
+     RoomGui.prototype.show = function ()
+     {
+         this.guiMod.call('show');
+     };
+     
 
      /**
       Creates a list of friends that are in the room and a list that
@@ -214,7 +217,11 @@
              }
          );
          
-
+         show = function()
+         {
+             roomWindow.show();
+         };
+         
          //whenever characteristics button is pressed, send message to
          //underlying emerson code to update room gui with values captured
          //from textareas

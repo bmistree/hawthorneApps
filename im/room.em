@@ -33,6 +33,11 @@ system.require('std/http/http.em');
      };
 
 
+     Room.prototype.showGui = function()
+     {
+         this.roomGui.show();  
+     };
+     
      Room.prototype.setName = function(newName)
      {
          IMUtil.dPrint('\n\nIn room.em.  Setting name to: ');

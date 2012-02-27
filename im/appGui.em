@@ -545,11 +545,16 @@ system.require('room.em');
      {
          //lkjs;
          IMUtil.dPrint('\n\nFill in later.  Processing room chat request.\n\n');
+         
      }
      function processRoomManageRequest(appGui,roomId)
      {
-         //lkjs;
-         IMUtil.dPrint('\n\nFill in later.  Processing room manage request.\n\n');
+         if (!(roomId in appGui.roomIDToRoomMap))
+             throw new Error('Error in processing room manage request.  ' +
+                             'No room with id ' + roomId.toString());
+
+
+         appGui.roomIDToRoomMap[roomId].showGui();
      }
 
 
@@ -1746,13 +1751,18 @@ system.require('room.em');
           */
          function displayRooms(roomsToPaint)
          {
+             
              var htmlToAdd = '';
-             if (roomsToPaint.length != 0)
-                 htmlToAdd += '<hr><b>Rooms</b><br/>';
+             var firstTime = true;
 
              for (var s in roomsToPaint)
              {
-                 sirikata.log('error','got a room to paint ' + roomsToPaint[s]);
+                 if (firstTime)
+                 {
+                     firstTime = false;
+                     htmlToAdd += '<hr><b>Rooms</b><br/>';
+                 }
+
                  htmlToAdd += roomsToPaint[s];
                  htmlToAdd += '<button id="' + roomButtonChatDivId(s) + '">' +
                      'chat</button>';
@@ -1761,7 +1771,6 @@ system.require('room.em');
                      'manage</button>';
              }
 
-             sirikata.log('error',htmlToAdd);
              
              $('#' + roomManagerDivId()).html(htmlToAdd);
 
