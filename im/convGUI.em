@@ -60,6 +60,14 @@ system.require('imUtil.em');
          internalWarn(this,warnMsg);
      };
 
+     ConvGUI.prototype.show = function()
+     {
+         if (!this.guiInitialized)
+             return;
+
+         this.guiMod.call(constructShow(this));
+     }
+     
      /**
       Called when user enters text into tab that needs to be displayed.
       */
@@ -74,7 +82,9 @@ system.require('imUtil.em');
      };
 
      /**
-      Called when friend enters text into tab that needs to be displayed.
+      Called when friend enters text into tab that needs to be
+      displayed.  friend here does nothing.  if make change so that it
+      does, make sure to update writeFriend in roome.em
       */
      ConvGUI.prototype.writeFriend = function(toWrite,friend,senderName)
      {
@@ -157,6 +167,12 @@ system.require('imUtil.em');
      function constructSetChatParticipantsName(convGUI)
      {
          return 'melville_conv_gui_chat_participants___' + convGUI.uiID.toString();
+     }
+
+     
+     function constructShow(convGUI)
+     {
+         return  'melville_conv_gui_show___' + convGUI.uiID.toString();
      }
      
      
@@ -254,7 +270,7 @@ system.require('imUtil.em');
 
      '<table><tr><td>' +
               '<div id=' + getMelvilleHistoryID() + ' style="height:200px;width:250px;font:16px/26px Georgia, Garamond, Serif;overflow:scroll;">' +
-              //'<div id=' + getMelvilleHistoryID() + ' style="height:120px;width:250px;font:16px/26px Georgia, Garamond, Serif;overflow:scroll;">' +
+                         // '<div id=' + getMelvilleHistoryID() + ' style="height:200px;width:250px;font:16px/26px Georgia, Garamond, Serif;overflow:scroll;">' +
               '</div>' + //end history
               '<input value="" id=' + getMelvilleTareaID() + ' style="width:250px;">' +          
               '</input>' +
@@ -275,8 +291,8 @@ system.require('imUtil.em');
             {
                 autoOpen: false,
                 height: 'auto',
-                width: 300,
-                height: 400,
+                width: 350,
+                height: 330,
                 position: 'right'
             }
          );
@@ -333,6 +349,13 @@ system.require('imUtil.em');
      };
      @
 
+
+         returner += constructShow(convGUI) + '=';
+         returner += @function(){
+             melvilleWindow.show();
+         };
+         @
+         
      
          //internal to gui display
          returner += constructWriteFriendFuncName(convGUI) + '=';

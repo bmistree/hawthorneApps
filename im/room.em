@@ -30,19 +30,34 @@ system.require('std/http/http.em');
          this.appGui = appGui;
          this.rmID   = rmID;
          this.roomGui = new RoomGui(IMUtil.getUniqueInt(),this);
+         this.roomChatGui = new ConvGUI(this.myName, new DummyConvGuiFriend(this));
      };
 
 
-     Room.prototype.showGui = function()
+     //only must implement msgToFriend.
+     function DummyConvGuiFriend(room)
+     {
+         this.mRoom = room;
+     }
+
+     DummyConvGuiFriend.prototype.msgToFriend = function(msg)
+     {
+         this.mRoom.writeFriend(msg,null,true);
+     };
+     
+
+     Room.prototype.showManageGui = function()
      {
          this.roomGui.show();  
+     };
+
+     Room.prototype.showChatGui = function()
+     {
+         this.roomChatGui.show();
      };
      
      Room.prototype.setName = function(newName)
      {
-         IMUtil.dPrint('\n\nIn room.em.  Setting name to: ');
-         IMUtil.dPrint(newName);
-         IMUtil.dPrint('\n\n');
          this.myName = newName;
          this.appGui.display();
      };
@@ -170,9 +185,23 @@ system.require('std/http/http.em');
       Called when receive message from friend.  Run through list of
       all friends.  For all friends that are connected, forward the
       message.
+
+      @param {bool} isMe (optional) -- If true, means that the owner
+      of the group is trying to write a message.  In this case, friendMsgFrom is null
       */
-     Room.prototype.writeFriend = function(toWrite,friendMsgFrom)
+     Room.prototype.writeFriend = function(toWrite,friendMsgFrom, isMe)
      {
+
+         if (typeof(isMe) == 'undefined')
+             isMe = false;
+
+         var friendFrom = '';
+         if (isMe)
+             friendFrom = system.self.toString();
+         else
+             friendFrom = friendMsgFrom.vis.toString();
+         
+
          for (var s in this.friendArray)
          {
              if (this.friendArray[s] == friendMsgFrom)
@@ -181,7 +210,7 @@ system.require('std/http/http.em');
              if (this.friendArray[s].canSend())
              {
                  this.friendArray[s].msgToFriend(
-                     toWrite,friendMsgFrom.vis.toString());
+                     toWrite,friendFrom);
              }
          }
          
@@ -191,10 +220,22 @@ system.require('std/http/http.em');
          {
              var url = this.loggingAddress;
              // var url = 'http://bmistree.stanford.edu/testLoggingChat.php?messageFrom=';
-             url += encodeURI(friendMsgFrom.vis.toString());
+             url += encodeURI(friendFrom);
              url += '&message=';
              url += encodeURI(toWrite);
              std.http.basicGet(url,function(){});
+         }
+
+         //update local gui
+         if (isMe)
+         {
+             this.roomChatGui.writeFriend(
+                 IMUtil.htmlEscape(toWrite),null,this.appGui.myName);                 
+         }
+         else
+         {
+             this.roomChatGui.writeFriend(
+                 IMUtil.htmlEscape(toWrite),friendMsgFrom,friendMsgFrom.name);
          }
      };
 

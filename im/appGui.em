@@ -544,9 +544,13 @@ system.require('room.em');
      function processRoomChatRequest(appGui,roomId)
      {
          //lkjs;
-         IMUtil.dPrint('\n\nFill in later.  Processing room chat request.\n\n');
-         
+         if (!(roomId in appGui.roomIDToRoomMap))
+             throw new Error('Error in processing room chat request.  ' +
+                             'No room with id ' + roomId.toString());
+
+         appGui.roomIDToRoomMap[roomId].showChatGui();
      }
+     
      function processRoomManageRequest(appGui,roomId)
      {
          if (!(roomId in appGui.roomIDToRoomMap))
@@ -554,7 +558,7 @@ system.require('room.em');
                              'No room with id ' + roomId.toString());
 
 
-         appGui.roomIDToRoomMap[roomId].showGui();
+         appGui.roomIDToRoomMap[roomId].showManageGui();
      }
 
 
