@@ -4,6 +4,20 @@ emerson applictions.
 These can be used either as standalones, or as examples for further
 application development.
 
-Currently, it contains only one project, the Melville IM client.
-Melville allows you to chat with other users of Melville throughout
-the world.
+
+Melville IM
+--------------
+Instant messaging client that attempts to chat with all visibles
+within proximity set.  If two visibles agree to chat with each
+other, then melville sends messages between them that display in their
+graphical interface.  Can also set up rooms where multi-cast chat
+messages to lots of users.
+
+
+Tiresias
+--------------
+A script that begins a graphical tutorial of how to do things in the
+world (script, etc.).
+
+Maybe interface to some type of http requests for chatting with
+chatbot or something?

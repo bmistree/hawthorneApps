@@ -1,0 +1,24 @@
+Tiresias is a guide around our virtual world.  He presents very basic
+information about how to navigate in the world, what the world is, how
+the world actually works (and maybe some examples of how it's
+different from other systems), what is going on within the world
+(eg. "We should go over to point X, you can meet someone else there"), how
+to script things in the world, a "do something cool" option
+(eg. release birds), details about particular world ("right now, we
+are passing the Z building"), etc.  
+
+
+Potential options:
+
+Release the birds.
+What is this?  Where am I?
+Key controls.
+Do something cool!
+Maybe hook into chat bot, or something?
+Hide Tiresias.
+What is that?
+Be a guide for me.  (Says things, like, "look over there, X,Y, or Z is
+happening".)
+
+What are the scripting apis?  (Just point to their urls.)
+Example of sandboxing.
