@@ -1,4 +1,8 @@
 
+     
+system.require('std/core/repeatingTimer.em');
+
+
 /**
  See README for usage explanation
  */
@@ -12,9 +16,9 @@
      var TIRESIAS_PHYSICS = { treatment: 'ignore' };
      var FOLLOW_PERIOD = .5;
 
-     
-     system.require('std/core/repeatingTimer.em');
+     var TIRESIAS_GUI_NAME = 'Tiresias the Guide';
 
+     
      /**
       @param {presence} toGuide
       */
@@ -34,6 +38,9 @@
                  callback: std.core.bind(tiresiasConnected,undefined,this)
              }
          );
+         this.graphicsRequested = false;
+         this.graphicsInited = false;
+         this.setupGraphics();
      };
 
 
@@ -62,5 +69,83 @@
          var repTimer = new std.core.RepeatingTimer(
              FOLLOW_PERIOD,std.core.bind(followFunc,undefined,this));
      };
+
+
+     /**
+      If have not already requested simulator to provide a graphics
+      window, do so now.  If have requested graphics previously, but
+      they are not init-ed yet, do nothing.
+
+      Otherwise, go back to main display screen.
+      */
+     Tiresias.prototype.setupGraphics = function()
+     {
+         if (!this.graphicsRequested)
+         {
+             //have to actually add a module to the simulator for our
+             //graphics
+             this.guiMod = simulator._simulator.addGUITextModule(
+                 TIRESIAS_GUI_NAME,
+                 getTiresiasGuiText(),
+                 std.core.bind(graphicsInitFunc,undefined,this));
+
+             this.graphicsRequested = true;
+             return;
+         }
+
+
+         //we requested graphics, but did not 
+         if (!this.graphicsInited)
+             return;
+
+
+         system.__debugPrint('\nVery difficult question as to ' +
+                           'what interface to provide between ' +
+                           'interface and internal logic.  I am ' +
+                           'guessing will want to make options for what is ' +
+                           'displaying in window very pluggable.  ' +
+                           'Then, this code drives which module is displayed.  ' +
+                           'Does that make sense?\n');
+         
+     };
+
+     function graphicsInitFunc(tireObj)
+     {
+         tireObj.graphicsInited = true;
+         //gets to draw menu's default text.
+         //may actually want a quick explanation of tiresias' purpose,
+         //and what can actually do.
+         tireObj.setupGraphics(); 
+     }
+
+     function getTiresiasGuiText()
+     {
+         var returner = "sirikata.ui('" + TIRESIAS_GUI_NAME + "',";
+         returner += 'function(){ ';
+
+         returner += @
+         //gui for displaying friends list.
+         $('<div>' +
+           '</div>' //end div at top.
+          ).attr({id:'tiresias-gui',title:'tiresiasHome'}).appendTo('body');
+
+         
+         var tiresiasWindow = new sirikata.ui.window(
+            '#tiresias-gui',
+            {
+	        autoOpen: false,
+	        height: 'auto',
+	        width: 300,
+                height: 400,
+                position: 'right'
+            }
+         );
+         tiresiasWindow.show();
+         @;
+
+         returner += '});';
+         return returner;
+     }
+     
 })();
 
