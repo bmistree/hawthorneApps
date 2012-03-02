@@ -19,7 +19,8 @@ system.require('std/core/simpleInput.em');
      var TIRESIAS_GUI_NAME = 'Tiresias the Guide';
 
      
-     var allModules = { };
+     var allModules = {};
+     var simpInput  = null;
      
      
      /**
@@ -59,6 +60,8 @@ system.require('std/core/simpleInput.em');
          this.redraw();         
      };
 
+
+     var counter = 0;
      Tiresias.prototype.redraw = function()
      {
          var options = [];
@@ -69,20 +72,32 @@ system.require('std/core/simpleInput.em');
              
              options.push(toPush);
          }
-         
-         var simpInput = std.core.SimpleInput(
+
+         ++counter;
+     
+         if (simpInput !== null)
+         {
+             simpInput.clear();
+             simpInput = null;
+         }
+
+         simpInput = new std.core.SimpleInput(
              std.core.SimpleInput.SELECT_LIST,
-             'Select an option',
+             'Select an option ' + counter.toString(),
              std.core.bind(selectionMade,undefined,this),
              options);
      };
+
      
      //callback to list of selections
      function selectionMade(tiresias,whatSelected)
      {
+         if (simpInput !== null)
+             simpInput = null;
+         
          if (!(whatSelected in allModules))
              throw new Error('Non-existent option selected');
-
+         
          allModules[whatSelected].start();
      }
      
