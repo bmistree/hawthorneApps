@@ -1,7 +1,7 @@
 
      
 system.require('std/core/repeatingTimer.em');
-
+system.require('std/core/simpleInput.em');
 
 /**
  See README for usage explanation
@@ -18,6 +18,9 @@ system.require('std/core/repeatingTimer.em');
 
      var TIRESIAS_GUI_NAME = 'Tiresias the Guide';
 
+     
+     var allModules = { };
+     
      
      /**
       @param {presence} toGuide
@@ -49,8 +52,40 @@ system.require('std/core/repeatingTimer.em');
          tiresiasObj.mPresence = system.self;
          tiresiasObj.follow();
      }
-     
 
+     Tiresias.prototype.addModule = function(modToAdd)
+     {
+         allModules[modToAdd.modId] = modToAdd;
+         this.redraw();         
+     };
+
+     Tiresias.prototype.redraw = function()
+     {
+         var options = [];
+         for (var s in allModules)
+         {
+             var toPush =
+                 [allModules[s].moduleOptionText,allModules[s].modId];
+             
+             options.push(toPush);
+         }
+         
+         var simpInput = std.core.SimpleInput(
+             std.core.SimpleInput.SELECT_LIST,
+             'Select an option',
+             std.core.bind(selectionMade,undefined,this),
+             options);
+     };
+     
+     //callback to list of selections
+     function selectionMade(tiresias,whatSelected)
+     {
+         if (!(whatSelected in allModules))
+             throw new Error('Non-existent option selected');
+
+         allModules[whatSelected].start();
+     }
+     
      /**
       should only be called once.  Sets up a repeating timer that
       re-adjusts the position of the following tiresias presence.
