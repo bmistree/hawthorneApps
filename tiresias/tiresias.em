@@ -29,7 +29,6 @@ system.require('std/core/simpleInput.em');
      Tiresias = function(toGuide)
      {
          this.toGuide = toGuide;
-         
 
          //have to create a new presence for Tiresias.
          this.mPresence = null;
@@ -147,16 +146,6 @@ system.require('std/core/simpleInput.em');
          //we requested graphics, but did not 
          if (!this.graphicsInited)
              return;
-
-
-         system.__debugPrint('\nVery difficult question as to ' +
-                           'what interface to provide between ' +
-                           'interface and internal logic.  I am ' +
-                           'guessing will want to make options for what is ' +
-                           'displaying in window very pluggable.  ' +
-                           'Then, this code drives which module is displayed.  ' +
-                           'Does that make sense?\n');
-         
      };
 
      function graphicsInitFunc(tireObj)

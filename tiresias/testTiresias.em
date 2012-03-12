@@ -4,7 +4,6 @@ system.require('helloWorldModule.em');
 system.require('birdsModule.em');
 system.require('controlsModule.em');
 
-
 var mTire  = new Tiresias(system.self);
 
 system.timeout(2,

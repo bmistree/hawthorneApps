@@ -1,0 +1,2 @@
+"objtype","pos_x","pos_y","pos_z","orient_x","orient_y","orient_z","orient_w","scale","meshURI","script_type","script_contents","query","physics"
+"mesh",-47,5,2.6,0,-.7,0,.7,4,"meerkat:///danielrh/maleWalkIdleSit.dae/optimized/maleWalkIdleSit.dae","js","system.import('tiresiasAvatar.em');","{"angle":0.3}","{"treatment":"character", "bounds":"box"}"
