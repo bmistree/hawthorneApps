@@ -3,14 +3,14 @@ system.require('module.em');
 
 (function()
  {
-     var HELLO_WORLD_GUI_NAME = 'helloWorldModule';
+     var HELLO_WORLD_GUI_NAME = 'whatIsSirikata';
      var tiresiasObj = null;
      
      addHelloWorldModule = function (tObj)
      {
          tiresiasObj = tObj;
          var helloWorldMod =
-             new TiresiasModule('hello world');
+             new TiresiasModule('What is Sirikata?');
 
          helloWorldMod.graphicsInit = false;
          
@@ -75,7 +75,7 @@ system.require('module.em');
          returner += @
 
          $('<div>'       +
-           'hello world' +
+           'Sirikata is a platform for virtual world research ...' +
            '</div>' //end div at top.
           ).attr({id:'helloWorld',title:'helloWorld'}).appendTo('body');
 

@@ -79,7 +79,9 @@ system.require('std/core/simpleInput.em');
 
          simpInput = new std.core.SimpleInput(
              std.core.SimpleInput.SELECT_LIST,
-             'Select an option ',
+             'Tiresias is a simple way to introduce users to ' +
+                 'the research going on on the Sirikata virtual world' +
+                 'platform.  Select an option to learn more: ', 
              std.core.bind(selectionMade,undefined,this),
              options);
      };
