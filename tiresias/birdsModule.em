@@ -3,9 +3,10 @@ system.require('module.em');
 
 (function()
 {
-    var BIRDS_GUI_NAME = 'birdsModule';
-    var birdsAlreadyFlying = false;
 
+    var BIRDS_GUI_NAME = 'birdsModule';
+    var birdsSandbox = null;
+    
     
     addBirdsModule = function(tiresiasObj)
     {
@@ -36,11 +37,22 @@ system.require('module.em');
 
     function hBeginFlyingBirds(birdsMod)
     {
-        if (birdsAlreadyFlying)
+        if (birdsSandbox !== null)
             return;
 
-        system.__debugPrint('\nThis is where we may want to ' +
-                            'install a swarm library\n');
+        var caps = new util.Capabilities(util.Capabilities.IMPORT,
+                                         util.Capabilities.CREATE_PRESENCE,
+                                         util.Capabilities.MOVEMENT);
+
+        
+        birdsSandbox = caps.createSandbox(system.self,null);
+        birdsSandbox.execute(
+            function()
+            {
+                var BIRDS_SCRIPT_FILENAME = 'gitHawthorne/tiresias/birdsScripts/boids2o.em';
+                system.import(BIRDS_SCRIPT_FILENAME);
+            });
+
     }
 
 
@@ -87,9 +99,10 @@ system.require('module.em');
            'as well as coordination.  As an example considering the swarm above, ' +
            'coordination just requires function calls, the scripter is ' +
            'not required to send messages over the network.  As a result, ' +
-           'his flock application does not have to deal with packet loss ' +
+           'his flock of pterodactyls application does not have to deal with packet loss ' +
            'in the network, message re-ordering, consistency issues, and ' +
-           'all the other challenges associated with distributed applications' +
+           'all the other challenges associated with distributed applications</p>' +
+           
            '</div>' //end div at top.
           ).attr({id:'birds',title:'birds'}).appendTo('body');
 
@@ -109,6 +122,7 @@ system.require('module.em');
          startBirds = function()
          {
              birdsWindow.show();
+             sirikata.event('beginFlyingBirds');
          };
 
          stopBirds = function()
