@@ -44,7 +44,9 @@ system.require('std/core/simpleInput.em');
          );
          this.graphicsRequested = false;
          this.graphicsInited = false;
-         this.setupGraphics();
+
+         //for now, just using simpleInputs instead of actual graphics.
+         //this.setupGraphics();
      };
 
 
