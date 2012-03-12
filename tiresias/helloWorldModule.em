@@ -4,9 +4,11 @@ system.require('module.em');
 (function()
  {
      var HELLO_WORLD_GUI_NAME = 'helloWorldModule';
+     var tiresiasObj = null;
      
-     addHelloWorldModule = function (tiresiasObj)
+     addHelloWorldModule = function (tObj)
      {
+         tiresiasObj = tObj;
          var helloWorldMod =
              new TiresiasModule('hello world');
 
@@ -28,9 +30,20 @@ system.require('module.em');
 
      function graphicsInitFunc(helloWorldMod)
      {
-         helloWorldMod.graphicsInit = true;         
+         helloWorldMod.graphicsInit = true;
+
+         helloWorldMod.guiMod.bind(
+            'killHelloWorld',
+            std.core.bind(hKillHelloWorld,undefined,helloWorldMod));        
      }
 
+
+     function hKillHelloWorld(helloWorldMod)
+     {
+        tiresiasObj.redraw();         
+     }
+
+     
 
      function startHelloWorldMod(helloWorldMod)
      {
@@ -66,6 +79,7 @@ system.require('module.em');
            '</div>' //end div at top.
           ).attr({id:'helloWorld',title:'helloWorld'}).appendTo('body');
 
+         var dialogOpen = false;
          var helloWorldWindow = new sirikata.ui.window(
              '#helloWorld',
              {
@@ -73,7 +87,13 @@ system.require('module.em');
 	        height:    'auto',
 	        width:        300,
                 height:       400,
-                position: 'right'
+                position: 'right',
+                 beforeClose: function(event,ui)
+                 {
+                     if (dialogOpen)
+                         sirikata.event('killHelloWorld');
+                     dialogOpen = false;
+                 }
             }
          );
          helloWorldWindow.hide();
@@ -81,11 +101,13 @@ system.require('module.em');
 
          startHelloWorld = function()
          {
+             dialogOpen = true;
              helloWorldWindow.show();
          };
 
          stopHelloWorld = function()
          {
+             dialogOpen = false;
              helloWorldWindow.hide();
          };
          

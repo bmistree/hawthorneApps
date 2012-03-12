@@ -51,7 +51,6 @@ createBoids();
 // }
 
 function createObstacles() {
-    system.__debugPrint('\nGot into createObstacles\n');
     for (var i = 0; i < nObstacles; i++) {
         system.create_presence(obstacleMesh, onObstacleCreation);
     }

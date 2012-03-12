@@ -60,8 +60,6 @@ system.require('std/core/simpleInput.em');
          this.redraw();         
      };
 
-
-     var counter = 0;
      Tiresias.prototype.redraw = function()
      {
          var options = [];
@@ -72,8 +70,6 @@ system.require('std/core/simpleInput.em');
              
              options.push(toPush);
          }
-
-         ++counter;
      
          if (simpInput !== null)
          {
@@ -83,7 +79,7 @@ system.require('std/core/simpleInput.em');
 
          simpInput = new std.core.SimpleInput(
              std.core.SimpleInput.SELECT_LIST,
-             'Select an option ' + counter.toString(),
+             'Select an option ',
              std.core.bind(selectionMade,undefined,this),
              options);
      };

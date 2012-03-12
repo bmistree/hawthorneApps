@@ -6,10 +6,12 @@ system.require('module.em');
 
     var BIRDS_GUI_NAME = 'birdsModule';
     var birdsSandbox = null;
+    var tiresiasObj = null;
     
     
-    addBirdsModule = function(tiresiasObj)
+    addBirdsModule = function(tObj)
     {
+        tiresiasObj = tObj;
         var birdsMod = new TiresiasModule('release the birds!');
 
         birdsMod.graphicsInit = false;
@@ -33,6 +35,10 @@ system.require('module.em');
         birdsMod.guiMod.bind(
             'beginFlyingBirds',
             std.core.bind(hBeginFlyingBirds,undefined,birdsMod));
+
+        birdsMod.guiMod.bind(
+            'stopFlyingBirds',
+            std.core.bind(hStopFlyingBirds,undefined,birdsMod));        
     }
 
     function hBeginFlyingBirds(birdsMod)
@@ -55,6 +61,17 @@ system.require('module.em');
 
     }
 
+    function hStopFlyingBirds(birdsMod)
+    {
+        if (birdsSandbox === null)
+            return;
+
+        birdsSandbox.clear();
+        birdsSandbox = null;
+        tiresiasObj.redraw();
+    }
+
+    
 
     function startBirdsMod(birdsMod)
      {
@@ -106,28 +123,38 @@ system.require('module.em');
            '</div>' //end div at top.
           ).attr({id:'birds',title:'birds'}).appendTo('body');
 
+         
+         var dialogOpen = false;
          var birdsWindow = new sirikata.ui.window(
              '#birds',
              {
-	        autoOpen:   false,
-	        height:    'auto',
-	        width:        300,
-                height:       400,
-                position: 'right'
+	         autoOpen:   false,
+	         height:    'auto',
+	         width:        300,
+                 height:       400,
+                 position: 'right',
+                 beforeClose: function(event,ui)
+                 {
+                     if (dialogOpen)
+                         sirikata.event('stopFlyingBirds');
+                     dialogOpen = false;
+                 }
             }
          );
          birdsWindow.hide();
 
-
          startBirds = function()
          {
              birdsWindow.show();
+             dialogOpen = true;
              sirikata.event('beginFlyingBirds');
          };
 
          stopBirds = function()
          {
              birdsWindow.hide();
+             dialogOpen = false;
+             sirikata.event('stopFlyingBirds');
          };
          @;
 
