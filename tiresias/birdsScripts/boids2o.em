@@ -20,8 +20,8 @@ var maxGoalTime = 10;
 var goalTimer = maxGoalTime * util.rand();
 var groundLevel = -10;
 
-var viewer_pos = new util.Vec3(-50, 0, 50);
-var viewer_orient = new util.Quaternion(0, 0, 0, 1);
+var viewer_pos = system.self.getPosition() + new util.Vec3(-50, 0, 50);
+var viewer_orient = system.self.getOrientation();
 
 var origin = new util.Vec3(-50, 0, 50);
 var yaxis = new util.Vec3(0, 1, 0);
@@ -32,7 +32,7 @@ var ymax = origin.y + 20;
 var zmin = origin.z - 40;
 var zmax = origin.z;
 
-var avatar = system.presences[0];
+
 var boids = new Array();
 var CD = new Array();
 var CV = new Array();
@@ -41,14 +41,9 @@ var dTimer = new my.deltaTimer();
 var goal = new util.Vec3(rand(xmin, xmax), rand(ymin, ymax), rand(zmin, zmax));
 
 
-//system.create_presence(terrainMesh, terrainInit);
 createObstacles();
 createBoids();
 
-// function terrainInit(terrain) {
-//     terrain.setPosition(new util.Vec3(origin.x, origin.y - 20, origin.z));
-//     terrain.setScale(1000);
-// }
 
 function createObstacles() {
     for (var i = 0; i < nObstacles; i++) {
@@ -117,8 +112,9 @@ function onBoidCreation(newBoid) {
     boids.push(newBoid);
     
     if (boids.length == nBoids) {
-        avatar.setPosition(viewer_pos);
-        avatar.setOrientation(viewer_orient);
+        //now viewer's position is not reset.
+        // avatar.setPosition(viewer_pos);
+        // avatar.setOrientation(viewer_orient);
         var repTimer = new std.core.RepeatingTimer(timerPeriod, step);
     }
 }
