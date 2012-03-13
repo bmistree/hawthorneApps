@@ -60,6 +60,14 @@ system.require('module.em');
                 system.import(BIRDS_SCRIPT_FILENAME);
             });
 
+        
+        // (function()
+        //     {
+        //         //var BIRDS_SCRIPT_FILENAME = 'gitHawthorne/tiresias/birdsScripts/boids2o.em';
+        //         var BIRDS_SCRIPT_FILENAME = 'birdsScripts/boids2o.em';
+        //         system.import(BIRDS_SCRIPT_FILENAME);
+        //     })();
+        
     }
 
     function hStopFlyingBirds(birdsMod)

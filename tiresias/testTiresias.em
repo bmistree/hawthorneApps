@@ -3,6 +3,7 @@ system.require('module.em');
 system.require('helloWorldModule.em');
 system.require('birdsModule.em');
 system.require('controlsModule.em');
+system.require('solidAngleModule.em');
 
 var mTire  = new Tiresias(system.self);
 
@@ -11,5 +12,6 @@ system.timeout(2,
                {
                    addHelloWorldModule(mTire);
                    addControlsModule(mTire);
-                   addBirdsModule(mTire);                                      
+                   addBirdsModule(mTire);
+                   addSolidAngleModule(mTire);
                });

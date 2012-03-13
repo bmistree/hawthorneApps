@@ -12,6 +12,8 @@ var speedLimit = 18;
 var boidMesh = "meerkat:///kittyvision/models/pteranodon.dae/optimized/0/pteranodon.dae";
 var obstacleMesh = 'meerkat:///elliotconte/models/DSTARIN.dae/optimized/1/DSTARIN.dae';
 
+var obstacleScale = 6;
+var birdScale = 8;
 
 
 var timerPeriod = 0.02;
@@ -25,12 +27,20 @@ var viewer_orient = system.self.getOrientation();
 
 var origin = new util.Vec3(-50, 0, 50);
 var yaxis = new util.Vec3(0, 1, 0);
+// var xmin = origin.x - 25;
+// var xmax = origin.x + 25;
+// var ymin = origin.y - 9.7;
+// var ymax = origin.y + 25;
+// var zmin = origin.z - 45;
+// var zmax = origin.z;
+
 var xmin = origin.x - 20;
 var xmax = origin.x + 20;
 var ymin = origin.y - 9.7;
 var ymax = origin.y + 20;
 var zmin = origin.z - 40;
 var zmax = origin.z;
+
 
 
 var boids = new Array();
@@ -47,7 +57,13 @@ createBoids();
 
 function createObstacles() {
     for (var i = 0; i < nObstacles; i++) {
-        system.create_presence(obstacleMesh, onObstacleCreation);
+        system.createPresence(
+            {
+                mesh: obstacleMesh,
+                callback: onObstacleCreation,
+//                query: '{"angle":.012}',
+                scale: obstacleScale
+            });
     }
 }
 
@@ -69,7 +85,7 @@ function randCoord(l1, h1, l2, h2) {
 }
 
 function onObstacleCreation(newObstacle) {
-    newObstacle.setScale(5);
+    newObstacle.setScale(obstacleScale);
 
     var record = new Object();
 
@@ -98,7 +114,7 @@ function onBoidCreation(newBoid) {
         randCoord(zmin, zmin + dz, zmax - dz, zmax)
     );
     
-    newBoid.setScale(2);
+    newBoid.setScale(birdScale);
     newBoid.setPosition(pos);
     newBoid.setVelocity(<0, 0, 0>);
     newBoid.V = new util.Vec3(rand(0,speedLimit), rand(0,speedLimit), rand(0,speedLimit));
@@ -122,7 +138,13 @@ function onBoidCreation(newBoid) {
 // create boids
 function createBoids() {
     for (var i = 0; i < nBoids; i++) {
-        system.create_presence(boidMesh, onBoidCreation);
+        system.createPresence(
+            {
+                mesh: boidMesh,
+                callback: onBoidCreation,
+//                query: '{"angle": .012}',
+                scale: birdScale
+            });
     }    
 }
 

@@ -24,10 +24,12 @@ def generateConfig(configFilename,prefix):
     appendFileWrite(filer,'tiresiasAvatar.em',prefix,True);
     appendFileWrite(filer,'tiresias.em',prefix,True);
     appendFileWrite(filer,'tiresiasUtil.em',prefix,True);
+    appendFileWrite(filer,'solidAngleModule.em',prefix,True);
     appendFileWrite(filer,'birdsScripts/boids2o.em',prefix,True);
     appendFileWrite(filer,'birdsScripts/deltaTimer.em',prefix,False);
 
-    # filer.write('''        }
+    #for local space
+#     filer.write('''        }
 #     },
 #     "binary" :
 #     {
@@ -38,7 +40,8 @@ def generateConfig(configFilename,prefix):
 #         }
 #     }
 # }''');
-    
+
+    #for sns30 space.
     filer.write('''        }
     },
     "binary" :
