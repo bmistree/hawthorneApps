@@ -12,7 +12,7 @@ system.require('std/core/simpleInput.em');
 
      //right now, just an octopus.
      var TIRESIAS_MESH = "meerkat:///hoshoshoshosh/octopus_fixed.dae/optimized/0/octopus_fixed.dae";
-     var TIRESIAS_POSITION_OFFSET = new util.Vec3(3,0,0);
+     var TIRESIAS_POSITION_OFFSET = new util.Vec3(-3,0,0);
      var TIRESIAS_PHYSICS = { treatment: 'ignore' };
      var FOLLOW_PERIOD = .5;
 
@@ -39,6 +39,7 @@ system.require('std/core/simpleInput.em');
                  pos: this.toGuide.getPosition() + TIRESIAS_POSITION_OFFSET,
                  physics: TIRESIAS_PHYSICS,
                  callback: std.core.bind(tiresiasConnected,undefined,this)
+//                 query: '{"angle":.012}'
              }
          );
          this.graphicsRequested = false;

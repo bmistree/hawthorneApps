@@ -25,23 +25,11 @@ def generateConfig(configFilename,prefix):
     appendFileWrite(filer,'tiresias.em',prefix,True);
     appendFileWrite(filer,'tiresiasUtil.em',prefix,True);
     appendFileWrite(filer,'solidAngleModule.em',prefix,True);
+    appendFileWrite(filer,'solidAngleScripts/distanceQueryWorld.em',prefix,True);
     appendFileWrite(filer,'birdsScripts/boids2o.em',prefix,True);
     appendFileWrite(filer,'birdsScripts/deltaTimer.em',prefix,False);
 
     #for local space
-#     filer.write('''        }
-#     },
-#     "binary" :
-#     {
-#         "name" : "cppoh",
-#         "args" :
-#         {
-#             "object-factory-opts" : "--db=avatar.db"
-#         }
-#     }
-# }''');
-
-    #for sns30 space.
     filer.write('''        }
     },
     "binary" :
@@ -49,12 +37,25 @@ def generateConfig(configFilename,prefix):
         "name" : "cppoh",
         "args" :
         {
-            "object-factory-opts" : "--db=avatar.db",
-            "servermap": "local",
-            "servermap-options": "--host=sns30.cs.princeton.edu --port=6880"
+            "object-factory-opts" : "--db=avatar.db"
         }
     }
 }''');
+
+    #for sns30 space.
+#     filer.write('''        }
+#     },
+#     "binary" :
+#     {
+#         "name" : "cppoh",
+#         "args" :
+#         {
+#             "object-factory-opts" : "--db=avatar.db",
+#             "servermap": "local",
+#             "servermap-options": "--host=sns30.cs.princeton.edu --port=6880"
+#         }
+#     }
+# }''');
 
     
     filer.flush();

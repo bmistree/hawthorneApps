@@ -4,16 +4,20 @@ system.require('module.em');
 (function()
  {
      var SOLID_ANGLE_GUI_NAME = 'solidAngleModule';
+     //var DISTANCE_WORLD_SA = '{"angle":.012}';
+     var DISTANCE_WORLD_SA = .012;
      var tiresiasObj = null;
      var previousPosition = null;
      var displacementOffset = new util.Vec3(1000,0,0);
+     var previousQueryAngle = null;
+     var solidAngleSandbox = null;
 
      
      addSolidAngleModule = function (tObj)
      {
          tiresiasObj = tObj;
          var solidAngleMod =
-             new TiresiasModule('How does discovery work (note this will teleport you briefly)?');
+             new TiresiasModule('(Do not actually select yet.) How does discovery work (note this will teleport you briefly)?');
 
          solidAngleMod.graphicsInit = false;
          
@@ -38,19 +42,34 @@ system.require('module.em');
 
          solidAngleMod.guiMod.bind(
              'killSolidAngle',
-             std.core.bind(hKillSolidAngle,undefined,solidAngleMod));        
+             std.core.bind(hKillSolidAngle,undefined,solidAngleMod));
+
+         solidAngleMod.guiMod.bind(
+             'allVisible',
+             std.core.bind(hAllVisible,undefined,solidAngleMod));
      }
 
 
      function hKillSolidAngle(solidAngleMod)
      {
+         solidAngleSandbox.clear();
          tiresiasObj.mPresence.setPosition(previousPosition);
+         tiresiasObj.mPresence.setQueryAngle(previousQueryAngle);
          tiresiasObj.redraw();         
      }
 
+
+     function hAllVisible(solidAngleMod)
+     {
+         var sboxMessage = '';
+         system.self.setQueryAngle (DISTANCE_WORLD_SA + .0001);
+         system.sendSandbox(sboxMessage,solidAngleSandbox);
+     }
      
      function startSolidAngleMod(solidAngleMod)
      {
+
+         
          if (!solidAngleMod.graphicsInit)
          {
              throw new Error('Error starting solid angle module.  ' +
@@ -60,6 +79,26 @@ system.require('module.em');
 
          previousPosition = tiresiasObj.mPresence.getPosition();
          tiresiasObj.mPresence.setPosition(previousPosition + displacementOffset);
+         previousQueryAngle = tiresiasObj.mPresence.getQueryAngle();
+         tiresiasObj.mPresence.setQueryAngle(DISTANCE_WORLD_SA);
+
+         var caps = new util.Capabilities(util.Capabilities.IMPORT,
+                                          util.Capabilities.CREATE_PRESENCE,
+                                          util.Capabilities.MOVEMENT,
+                                          util.Capabilities.PROX_QUERIES);
+
+        
+         solidAngleSandbox = caps.createSandbox(system.self,null);
+         solidAngleSandbox.execute(
+             function()
+             {
+                 system.timeout(5,function()
+                               {
+                                   //var SOLID_ANGLE_SCRIPT_FILENAME = 'gitHawthorne/tiresias/solidAngleScripts/distanceQueryWorld.em';
+                                   var SOLID_ANGLE_SCRIPT_FILENAME = 'solidAngleScripts/distanceQueryWorld.em';
+                                   system.import(SOLID_ANGLE_SCRIPT_FILENAME);
+                               });
+             });
      }
 
 
@@ -105,6 +144,10 @@ system.require('module.em');
            '<p>Sirikata uses a novel modification of Bounding Volume Hierarchies '+
            'to conservatively cull which servers a querier needs to contact.  This ' +
            'allows the world to scale while still providing solid angle queries.</p>' +
+
+           'To see what the entire world looks like without a range query, ' +
+           '<button onclick="solidAngleVanish()">click here</button>' +
+             
            '</div>' //end div at top.
           ).attr({id:'solidAngle',title:'solidAngle'}).appendTo('body');
 
@@ -127,6 +170,11 @@ system.require('module.em');
          );
          solidAngleWindow.hide();
 
+           solidAngleVanish = function()
+           {
+             sirikata.event('allVisible');
+           };
+           
 
          startSolidAngle = function()
          {
