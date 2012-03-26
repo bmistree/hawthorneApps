@@ -17,7 +17,7 @@ system.require('module.em');
      {
          tiresiasObj = tObj;
          var solidAngleMod =
-             new TiresiasModule('(Do not actually select yet.) How does discovery work (note this will teleport you briefly)?');
+             new TiresiasModule('How does discovery work (note this will teleport you briefly)?');
 
          solidAngleMod.graphicsInit = false;
          
@@ -62,7 +62,6 @@ system.require('module.em');
      function hAllVisible(solidAngleMod)
      {
          var sboxMessage = '';
-         system.self.setQueryAngle (DISTANCE_WORLD_SA + .0001);
          system.sendSandbox(sboxMessage,solidAngleSandbox);
      }
      

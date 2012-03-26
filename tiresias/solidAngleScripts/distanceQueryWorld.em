@@ -10,7 +10,6 @@ system.require('std/core/repeatingTimer.em');
 //residentials
 var initialPosition = system.self.getPosition();
 var initialPres = system.self;
-var initialSA = system.self.getQueryAngle();
 
 var allVisible = false;
 
@@ -18,7 +17,6 @@ var allVisible = false;
 //show me what I missed in the world
 system.registerSandboxMessageHandler(function()
                                      {
-                                         system.__debugPrint('\n\nSandbox received message\n\n');
                                          allVisible = true;
                                      },{::},null);
 
@@ -47,10 +45,6 @@ var repTimer =
         VISIBILITY_POLLING_PERIOD,
         function()
         {
-            if (initialSA != initialPres.getQueryAngle())
-                allVisible = true;
-
-            
             var currentPos = initialPres.getPosition();
             for (var s in allPresences)
             {
